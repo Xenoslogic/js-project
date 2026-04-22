@@ -1,14 +1,38 @@
-let title = prompt('Как называется ваш проект?');
-let screens = prompt('Какие типы экранов нужно разработать?', 'Простые, Сложные, Интерактивные');
-let screenPrice = +prompt('Сколько будет стоить данная работа?');
+let title;
+let screens;
+let screenPrice;
 let rollback = 30;
-let adaptive = confirm('Нужен ли адаптив на сайте?');
-let service1 = prompt("Какой дополнительный тип услуги нужен?");
-let servicePrice1 = +prompt("Сколько это будет стоить?");
-let service2 = prompt("Какой дополнительный тип услуги нужен?");
-let servicePrice2 = +prompt("Сколько это будет стоить?");
-let fullPrice = screenPrice + servicePrice1 + servicePrice2;
-let servicePercentPrice = Math.ceil(fullPrice - (fullPrice * (rollback / 100)));
+let adaptive;
+let service1;
+let service2;
+
+// let fullPrice = screenPrice + servicePrice1 + servicePrice2;
+// let servicePercentPrice = Math.ceil(fullPrice - (fulllPrice * (rollback / 100)));
+
+const isNumber = function (num) {
+  return !isNaN(parseFloat(num)) && isFinite(num);
+}
+
+const asking = function () {
+  title = prompt('Как называется ваш проект?', 'Калькулятор верстки');
+  screens = prompt('Какие типы экранов нужно разработать?', 'Простые');
+
+
+  do {
+    screenPrice = prompt('Сколько будет стоить данная работа?');
+
+    // Если пользователь нажал «Отмена», прерываем цикл
+    if (screenPrice === null) {
+      break;
+    }
+
+  } while (!isNumber(screenPrice)) {
+    screenPrice = prompt('Сколько будет стоить данная работа?');
+  }
+  adaptive = confirm('Нужен ли адаптив на сайте?');
+}
+
+asking();
 
 const showTypeOf = function (variable) {
   console.log(variable, typeof variable);
@@ -30,9 +54,40 @@ const getRollbackMessage = function (price) {
 
 // Объявляем функцию
 const getAllServicePrices = function () {
-  const price1 = Number(servicePrice1);
-  const price2 = Number(servicePrice2);
-  return price1 + price2;
+
+  let sum = 0;
+
+  for (let i = 0; i < 2; i++) {
+
+    if (i === 0) {
+      service1 = prompt("Какой дополнительный тип услуги нужен?");
+    } else if (i === 1) {
+      service2 = prompt("Какой дополнительный тип услуги нужен?");
+    }
+    sum += +prompt("Сколько это будет стоить?");
+  }
+  // Получаем стоимость с проверкой на число
+  let priceInput;
+  do {
+    priceInput = prompt("Сколько это будет стоить?");
+
+    // Если пользователь нажал «Отмена», прерываем цикл
+    if (priceInput === null) {
+      console.log("Ввод отменён пользователем");
+      return sum; // Возвращаем текущую сумму (может быть 0 или частично посчитанной)
+    }
+
+    // Проверяем, что введено число
+    if (!isNumber(priceInput)) {
+      alert("Пожалуйста, введите корректное число!");
+    }
+  } while (!isNumber(priceInput));
+
+  // Преобразуем в число и добавляем к сумме
+  sum += Number(priceInput);
+
+  return sum;
+  // return price1 + price2;
 };
 // Вызываем функцию, сохраняем результат
 const allServicePrices = getAllServicePrices();
@@ -77,6 +132,7 @@ showTypeOf(fullPrice);
 showTypeOf(adaptive);
 
 
+console.log('allServicePrices', allServicePrices);
 console.log(servicePercentPrice);
 console.log(getRollbackMessage(fullPrice));
 console.log(screens.length);
