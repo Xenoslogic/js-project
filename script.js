@@ -152,8 +152,14 @@ const appData = {
     console.log('=== РЕЗУЛЬТАТЫ РАСЧЁТА ===');
 
     for (const key in this) {
-      if (key !== 'start' && key !== 'logger' &&
-        key !== 'isNumber' && key !== 'isStringWithText') {
+      // Пропускаем методы и служебные функции
+      if (
+        typeof this[key] !== 'function' &&  // это не функция
+        key !== 'start' &&
+        key !== 'logger' &&
+        key !== 'isNumber' &&
+        key !== 'isStringWithText'
+      ) {
         console.log(`${key}: ${this[key]}`);
       }
     }
