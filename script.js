@@ -72,7 +72,7 @@ const appData = {
     let sum = 0;
 
     for (let i = 0; i < 2; i++) {
-      // Проверка названия услуги (должна быть строка с текстом)
+      // Проверка названия услуги
       let serviceInput;
       do {
         serviceInput = prompt(`Какой ${i + 1}-й дополнительный тип услуги нужен?`);
@@ -85,13 +85,10 @@ const appData = {
         }
       } while (!this.isStringWithText(serviceInput));
 
-      if (i === 0) {
-        this.service1 = serviceInput;
-      } else if (i === 1) {
-        this.service2 = serviceInput;
-      }
+      // Динамическое создание свойства: service1, service2 и т. д.
+      this[`service${i + 1}`] = serviceInput;
 
-      // Проверка стоимости услуги (должно быть число)
+      // Проверка стоимости услуги
       let priceInput;
       do {
         priceInput = prompt('Сколько это будет стоить?');
